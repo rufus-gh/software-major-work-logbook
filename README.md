@@ -880,7 +880,7 @@ I decided to use a **dark color scheme** for the website and a **light scheme** 
 
 For the logo, I used a **cross symbol**, which represents a hospital, and put a **leaf** over it to give it a natural aesthetic and design interest whilst still keeping it simple. I used ChatGPT to generate the image and made its color the primary color.
 
-![image](https://github.com/user-attachments/assets/9d462f3d-ca46-47bf-ad7e-d390c9452da3)
+<img src="https://github.com/user-attachments/assets/9d462f3d-ca46-47bf-ad7e-d390c9452da3" width="140"/>
 
 ### Design of Color Scheme – Web Dashboard
 
@@ -1041,7 +1041,7 @@ The combination of user testing and other testing methodologies has been instrum
 ---
 
 ## Version Control Used to Track Changes
-![image](https://github.com/user-attachments/assets/6cbf6403-92bb-41b0-83d3-2a165c728473)
+<img src="https://github.com/user-attachments/assets/6cbf6403-92bb-41b0-83d3-2a165c728473" style="filter: invert(1) hue-rotate(180deg);" width="200"/>
 
 - I extensively used **version control** throughout my project, and it was extremely useful
 - I used **Git in VS Code** as it provided an easy GUI to manage the version control
@@ -1051,8 +1051,9 @@ The combination of user testing and other testing methodologies has been instrum
 - Without version control it would have taken ages to find and undo every single change that I made
 
 ### List of the Commits:
-![image](https://github.com/user-attachments/assets/9690c0d4-e6a1-444d-a328-32ac84592b59)
-![image](https://github.com/user-attachments/assets/7130fc5a-869d-4d37-ac81-0642ef09cd67)
+<img src="https://github.com/user-attachments/assets/9690c0d4-e6a1-444d-a328-32ac84592b59" width="500"/><br>
+<img src="https://github.com/user-attachments/assets/7130fc5a-869d-4d37-ac81-0642ef09cd67" width="500"/>
+
 
 ---
 
