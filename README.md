@@ -1073,7 +1073,92 @@ The sample section of code below is the start of the backend code (`server.js`):
 - Three API endpoints are then defined, each with purposes as illustrated by the comments
 - Robust error handling is used so that the web dashboard or mobile app can gracefully show an error message without crashing, and uses a generic error response to prevent sensitive information being sent as an error message
 
-*[Code would go here]*
+```javascript
+// Import required dependencies
+const { PrismaClient } = require('@prisma/client');
+const express = require('express');
+const cors = require('cors');
+const { v4: uuidv4 } = require('uuid');
+const fs = require('fs');
+const path = require('path');
+
+// Initialize Express app and router
+const app = express();
+const router = express.Router();
+
+// Initialize Prisma client for database operations
+const prisma = new PrismaClient();
+
+// Configure CORS middleware to allow cross-origin requests
+app.use(cors({
+    origin: true, // Dynamically allow all origins
+    credentials: true, // Enable credentials for cross-origin requests
+}));
+
+// Middleware to parse JSON request bodies
+app.use(express.json());
+
+// Use the router for all routes
+app.use(router);
+
+// GET /doctors - Retrieve all doctors from the database
+router.get('/doctors', async (req, res) => {
+    try {
+        // Fetch all doctor records from the database
+        const doctors = await prisma.doctor.findMany();
+        res.json(doctors);
+    } catch (error) {
+        // Log the error for debugging purposes
+        console.error(error);
+        // Return a generic error message to the client
+        res.status(500).json({ error: 'An error occurred' });
+    }
+});
+
+// GET /doctorsPatients/:id - Get all patients assigned to a specific doctor
+router.get('/doctorsPatients/:id', async (req, res) => {
+    try {
+        // First, find the doctor by ID to ensure they exist
+        const doctor = await prisma.doctor.findUnique({
+            where: { id: req.params.id }
+        });
+        
+        // Find all patients that belong to this doctor
+        const doctorsPatients = await prisma.patient.findMany({
+            where: { doctorId: doctor.id }
+        });
+        
+        res.json(doctorsPatients);
+    } catch (error) {
+        // Log the error details for server-side debugging
+        console.error(error);
+        // Send a generic error response to avoid exposing sensitive information
+        res.status(500).json({ error: 'An error occurred' });
+    }
+});
+
+// GET /doctors/:id - Retrieve a specific doctor by their ID
+router.get('/doctors/:id', async (req, res) => {
+    try {
+        // Find a single doctor by their unique ID
+        const doctor = await prisma.doctor.findUnique({
+            where: { id: req.params.id }
+        });
+        
+        // Return 404 if doctor doesn't exist
+        if (!doctor) {
+            return res.status(404).json({ error: 'Doctor not found' });
+        }
+        
+        res.json(doctor);
+    } catch (error) {
+        // Log the error for debugging and monitoring
+        console.error(error);
+        // Return a server error response with generic message
+        res.status(500).json({ error: 'An error occurred' });
+    }
+});
+```
 
 ### Doctor Dashboard
 
@@ -1083,7 +1168,83 @@ The following code is for the sign-in function on the doctor dashboard login pag
 - A catch-all error path ensures any unexpected errors are also caught, preventing app crashes
 - The `console.log` statements assist developers with debugging, while the `toast.error` calls inform users something went wrong without exposing sensitive details
 
-*[Code would go here]*
+```javascript
+/**
+ * SignIn function - Handles user authentication
+ * @param {Object} creds - User credentials (email, password)
+ * @param {Function} onSuccess - Callback function to execute on successful sign in
+ */
+const SignIn = useCallback(
+	async (creds, onSuccess) => {
+			// Set loading state to true to show loading indicators
+			setIsLoading(true);
+
+			// Attempt to sign in using Firebase authentication service
+			TAuth.firebaseSignIn(creds)
+				.then(userCredential => {
+					// Extract user from the credential response
+					const {
+						user
+					} = userCredential;
+
+					// Check if user exists in the response
+					if (user) {
+						// Set the current user in state
+						setCurrentUser(user);
+
+						// Show success toast notification
+						toast.success('Signed in successfully!', {
+							icon: '✅',
+						});
+
+						// Execute the success callback
+						onSuccess();
+					} else {
+						// Handle case where user is null/undefined
+						toast.error('Something went wrong!', {
+							icon: '❌',
+						});
+						console.log('Error: Something went wrong!');
+					}
+
+					// Reset loading state
+					setIsLoading(false);
+				})
+				.catch(error => {
+					// Handle specific authentication errors
+					if (error.code === 'auth/wrong-password') {
+						// Invalid password error
+						toast.error('Incorrect password!', {
+							icon: '🔑',
+						});
+						console.log('Error: Password is wrong!');
+					} else if (error.code === 'auth/user-not-found') {
+						// User doesn't exist error
+						toast.error('User not found!', {
+							icon: '👤',
+						});
+						console.log('Error: User not found!');
+					} else if (error.code === 'auth/too-many-requests') {
+						// Account temporarily disabled due to too many failed attempts
+						toast.error('Account disabled! Too many attempts!', {
+							icon: '🔒',
+						});
+						console.log('Error: Account disabled! Too many attempts!');
+					} else {
+						// Generic error handler for other authentication errors
+						toast.error(`Login failed: ${error.message}`, {
+							icon: '❌',
+						});
+						console.log('Error:', error.message);
+					}
+
+					// Reset loading state regardless of error
+					setIsLoading(false);
+				});
+		},
+		[] // Empty dependency array - function won't change between renders
+);
+```
 
 ### Mobile App
 
@@ -1093,4 +1254,64 @@ The sample section of code for the mobile app shows the process of linking a pat
 - The `connectResponse.ok` check allows for a fallback alert containing a user-friendly hint if the server returns a non-200 status
 - Overall, providing a graceful error path prevents app crashes or confusing blank screens
 
-*[Code would go here]*
+```javascript
+/**
+ * Handles linking a patient to a doctor using a doctor code
+ * This function validates input, makes API calls to establish the connection,
+ * and provides user feedback throughout the process
+ */
+const linkToDoctor = async () => {
+	// Validate that a doctor code has been entered
+	if (!doctorCode.trim()) {
+		Alert.alert("Error", "Please enter a doctor code");
+		return;
+	}
+
+	// Set loading state to disable the button and show progress
+	setLinking(true);
+
+	try {
+		// Get the current user's email from Firebase authentication
+		const userEmail = auth.currentUser?.email;
+
+		// First API call: Get the patient ID from their email address
+		const idResponse = await fetch(`http://${ip}:3000/idFromEmail/${userEmail}`);
+		const idData = await idResponse.json();
+
+		// Verify the user is a patient (not a doctor)
+		if (idData.type === 'patient') {
+			// Second API call: Connect the patient to the doctor using the provided code
+			const connectResponse = await fetch(`http://${ip}:3000/connect`, {
+				method: 'PATCH',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({
+					patientId: idData.id, // Patient's database ID
+					doctorId: doctorCode.trim() // Doctor's code/ID entered by user
+				}),
+			});
+
+			// Check if the connection was successful
+			if (connectResponse.ok) {
+				// Success: Show confirmation and clean up UI
+				Alert.alert("Success", "Successfully linked to your doctor!");
+				setShowDoctorLinkModal(false); // Close the modal
+				setDoctorCode(''); // Clear the input field
+				fetchDoctorInfo(); // Refresh doctor info to show the new connection
+			} else {
+				// Failure: Parse error message from server and display to user
+				const errorData = await connectResponse.json();
+				Alert.alert("Error", errorData.error || "Failed to link to doctor. Please check the code and try again.");
+			}
+		}
+	} catch (error) {
+		// Handle network errors or other exceptions
+		console.error('Error linking to doctor:', error);
+		Alert.alert("Error", "Failed to link to doctor. Please try again.");
+	} finally {
+		// Always reset loading state, regardless of success or failure
+		setLinking(false);
+	}
+};
+```
