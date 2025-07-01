@@ -1,4 +1,4 @@
-# ReMedi – Software Major Work Logbook
+![image](https://github.com/user-attachments/assets/c3a8efcd-0fd8-4397-b118-aa8ee0a93c85)# ReMedi – Software Major Work Logbook
 **By Rufus Gordon-Heywood**
 
 ---
@@ -880,6 +880,8 @@ I decided to use a **dark color scheme** for the website and a **light scheme** 
 
 For the logo, I used a **cross symbol**, which represents a hospital, and put a **leaf** over it to give it a natural aesthetic and design interest whilst still keeping it simple. I used ChatGPT to generate the image and made its color the primary color.
 
+![image](https://github.com/user-attachments/assets/9d462f3d-ca46-47bf-ad7e-d390c9452da3)
+
 ### Design of Color Scheme – Web Dashboard
 
 For the website, I chose:
@@ -888,9 +890,13 @@ For the website, I chose:
 - **Dark black** for the primary background color
 - **Slightly lighter shade of black** for the secondary background color (raised elements)
 
+![image](https://github.com/user-attachments/assets/3fae2414-36b7-4df6-bd21-5cfb7e2ccec3)
+
 ### Design of Color Scheme – Mobile App
 
 I kept the same primary color for the mobile app but went with a **light mode** to increase accessibility for older users. The background colors are varying shades of white and two different shades for text which are slightly blue-black, providing good contrast with the background colors whilst also keeping with the primary blue color.
+
+![image](https://github.com/user-attachments/assets/16711aa5-0936-4dcf-bbce-6ad848512d0f)
 
 ---
 
@@ -900,12 +906,12 @@ I kept the same primary color for the mobile app but went with a **light mode** 
 *TODO: Add annotated screens of mobile app*
 
 ### Web Dashboard
-*TODO: Add annotated screens of web dashboard*
+![image](https://github.com/user-attachments/assets/67c69bb4-a849-4978-a149-766c9cd59e1d)
 
 ---
 
 ## Progress of the Web Dashboard Over Time
-*TODO: Document progress timeline*
+![image](https://github.com/user-attachments/assets/eda762e8-cb86-4d28-9088-d0cec85b1dfd)
 
 ---
 
@@ -996,9 +1002,10 @@ Overall, the feedback reflected diverse user needs and directly informed targete
 
 ### Unit Testing
 
-An example of where unit testing was used in my program was for testing the doctor's list of patients on the web dashboard. It encountered that it wouldn't properly render if it couldn't connect to the backend, and would just crash the website.
+An example of where unit testing using Jest (a unit testing library for JavaScript) was used in my program was for testing the doctor's list of patients on the web dashboard. It encountered that it wouldn't properly render if it couldn't connect to the backend, and would just crash the website.
 
 **Solution:** Added error handling that would display "Unable to fetch patient data."
+![image](https://github.com/user-attachments/assets/27d1f6c7-bd4f-492b-bc24-d19d51b146a6)
 
 ### Integration Testing
 
@@ -1009,6 +1016,7 @@ This testing focused on the interactions between different parts of the system. 
 ### API Testing
 
 The API testing with Bruno was very helpful for developing the API, as I could code an endpoint which connects to the Prisma database, then quickly and easily request that endpoint on Bruno to see if it produced the desired output.
+![image](https://github.com/user-attachments/assets/063304f0-445d-4085-9958-6f79e29d016a)
 
 ### Cross-Browser Testing
 
@@ -1033,6 +1041,7 @@ The combination of user testing and other testing methodologies has been instrum
 ---
 
 ## Version Control Used to Track Changes
+![image](https://github.com/user-attachments/assets/6cbf6403-92bb-41b0-83d3-2a165c728473)
 
 - I extensively used **version control** throughout my project, and it was extremely useful
 - I used **Git in VS Code** as it provided an easy GUI to manage the version control
@@ -1040,6 +1049,10 @@ The combination of user testing and other testing methodologies has been instrum
 - This means that when I was trying to create a new feature and broke it, I could just go back to the last point where it was working
 - This helped me many times throughout the project where I made big changes but couldn't get them to work, so I just reset to the last commit
 - Without version control it would have taken ages to find and undo every single change that I made
+
+### List of the Commits:
+![image](https://github.com/user-attachments/assets/9690c0d4-e6a1-444d-a328-32ac84592b59)
+![image](https://github.com/user-attachments/assets/7130fc5a-869d-4d37-ac81-0642ef09cd67)
 
 ---
 
@@ -1054,7 +1067,11 @@ I was able to compare the actual timeline to the initial timeline by looking at 
 - **Started the doctor dashboard earlier** and added much more features than initially planned
 - **Patient app was worked on for a longer period** than expected, however there were weeks where it was not worked on, so ended up taking roughly the same amount of time to make as expected, just over a longer timeframe
 
-*A comparison of the old and new Gantt chart is on the next slide*
+### Old Gantt Chart:
+![image](https://github.com/user-attachments/assets/934be49c-c379-4f24-914e-f726a81b84de)
+
+### New Gantt Chart:
+![image](https://github.com/user-attachments/assets/ea1ceb3a-4aee-4a39-ba23-ea8e2d339fe8)
 
 ---
 
