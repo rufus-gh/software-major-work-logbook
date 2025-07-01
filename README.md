@@ -1041,7 +1041,8 @@ The combination of user testing and other testing methodologies has been instrum
 ---
 
 ## Version Control Used to Track Changes
-<img src="https://github.com/user-attachments/assets/6cbf6403-92bb-41b0-83d3-2a165c728473" style="filter: invert(1) hue-rotate(180deg);" width="200"/>
+<img src="https://github.com/user-attachments/assets/1da4c450-a498-42e4-bd00-fc814b04e536" width="200" />
+
 
 - I extensively used **version control** throughout my project, and it was extremely useful
 - I used **Git in VS Code** as it provided an easy GUI to manage the version control
