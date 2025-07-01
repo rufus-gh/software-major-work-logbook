@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/c3a8efcd-0fd8-4397-b118-aa8ee0a93c85)# ReMedi – Software Major Work Logbook
+# ReMedi – Software Major Work Logbook
 **By Rufus Gordon-Heywood**
 
 ---
